@@ -6,6 +6,10 @@ import { NopagefoundComponent } from './nopagefound/nopagefound.component';
 import { AppRoutingModule } from './app-routing.module';
 import { PagesModule } from './pages/pages.module';
 
+
+
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -16,7 +20,9 @@ import { PagesModule } from './pages/pages.module';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    PagesModule
+    PagesModule,
+
+
   ],
   providers: [],
   bootstrap: [AppComponent]

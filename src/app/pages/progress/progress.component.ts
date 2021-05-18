@@ -5,11 +5,31 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './progress.component.html',
   styleUrls: ['./progress.component.css']
 })
-export class ProgressComponent implements OnInit {
+export class ProgressComponent  {
 
-  constructor() { }
 
-  ngOnInit(): void {
+
+
+
+  progreso1: number = 25;
+  progreso2: number = 50;
+
+
+  get getProgreso1(){
+    let i = `${this.progreso1}%`;
+
+    console.log(i);
+    return i;
+  }
+
+  get getProgreso2(){
+    return `${this.progreso2}%`;
+  }
+
+
+
+  cambioValorHijo(valor: number){
+   this.progreso1 = valor;
   }
 
 }
