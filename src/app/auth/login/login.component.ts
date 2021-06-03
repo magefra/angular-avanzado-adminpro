@@ -44,12 +44,18 @@ export class LoginComponent  implements OnInit{
      }else{
        localStorage.removeItem('email');
      }
+
+
+        // Navegar al Dashboard
+        this.router.navigateByUrl('/');
+
+
     }, (err) =>{
       Swal.fire('Error', err.error.msg, 'error');
     })
 
 
-    // this.router.navigateByUrl('/');
+
   }
 
 
@@ -90,7 +96,13 @@ export class LoginComponent  implements OnInit{
         (googleUser) =>{
          const id_token = googleUser.getAuthResponse().id_token;
         this.usuarioService.loginGoogle(id_token)
-        .subscribe();
+        .subscribe(resp =>{
+               // Navegar al Dashboard
+              this.router.navigateByUrl('/');
+
+        });
+
+
         }, (error) =>{
           alert(JSON.stringify(error, undefined, 2));
         });
