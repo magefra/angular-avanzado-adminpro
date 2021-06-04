@@ -7,6 +7,7 @@ import { LoginForm } from '../interfaces/login-form.interface';
 import { tap, map, catchError } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { Router } from '@angular/router';
+import { Usuario } from '../models/usuario.model';
 
 const base_url = environment.base_url;
 declare const gapi : any;
@@ -17,6 +18,7 @@ declare const gapi : any;
 export class UsuarioService {
 
   public auth2 : any;
+  public usuario: Usuario;
 
   constructor(private http: HttpClient,
               private router: Router,
@@ -24,8 +26,21 @@ export class UsuarioService {
                 this.googleInit();
               }
 
+
+  get token(): string{
+    return localStorage.getItem('token') || '';
+  }
+
+  get uuid(): string{
+    return this.usuario.uuid || '';
+  }
+
+
+
+
+
   validarToken(): Observable<boolean> {
-    const token = localStorage.getItem('token') || '';
+    const token = this.token;
 
     return this.http.get(`${base_url}/login/renew`, {
       headers: {
@@ -33,10 +48,18 @@ export class UsuarioService {
       },
     })
     .pipe(
-      tap((resp: any) =>{
-        localStorage.setItem('token', resp.token);
+      map((resp: any) =>{
+
+
+        const {email, google, nombre,role,img = '', uuid} = resp.usuarioDB;
+        console.log(resp);
+
+      this.usuario = new Usuario(nombre,email,'',img,google, role, uuid);
+
+
+      localStorage.setItem('token', resp.token);
+      return true;
       }),
-      map(resp => true),
       catchError(err => of(false))
     );
   }
@@ -80,11 +103,27 @@ export class UsuarioService {
   }
 
   crearUsuario(formData: RegisterForm) {
-    return this.http.post(`${base_url}/usuarios`, formData).pipe(
+    return this.http.post(`${base_url}/usuarios`, formData)
+    .pipe(
       tap((resp: any) => {
         localStorage.setItem('token', resp.token);
       })
     );
+  }
+
+
+
+  actualizarUsuario(data: {email: string, nombre: string, role:string}){
+    data = {
+      ... data,
+      role: this.usuario.role
+    }
+
+    return this.http.put(`${base_url}/usuarios/${this.uuid}`, data,{
+      headers: {
+        'x-token': this.token,
+      },
+    })
   }
 
   loginUsuario(formData: LoginForm) {
@@ -102,4 +141,9 @@ export class UsuarioService {
       })
     );
   }
+
+
+
+
+
 }
