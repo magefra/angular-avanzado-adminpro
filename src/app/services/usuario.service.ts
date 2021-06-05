@@ -8,6 +8,7 @@ import { tap, map, catchError } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { Router } from '@angular/router';
 import { Usuario } from '../models/usuario.model';
+import { CargarUsuario } from '../interfaces/cargar-usuarios.interface';
 
 const base_url = environment.base_url;
 declare const gapi : any;
@@ -19,6 +20,8 @@ export class UsuarioService {
 
   public auth2 : any;
   public usuario: Usuario;
+
+
 
   constructor(private http: HttpClient,
               private router: Router,
@@ -35,9 +38,13 @@ export class UsuarioService {
     return this.usuario.uuid || '';
   }
 
-
-
-
+  get headers(){
+    return {
+      headers: {
+        'x-token': this.token,
+      },
+    };
+  }
 
   validarToken(): Observable<boolean> {
     const token = this.token;
@@ -64,8 +71,6 @@ export class UsuarioService {
     );
   }
 
-
-
   googleInit()
   {
 
@@ -86,8 +91,6 @@ export class UsuarioService {
     });
 
   }
-
-
 
   logout(){
     localStorage.removeItem('token');
@@ -110,8 +113,6 @@ export class UsuarioService {
       })
     );
   }
-
-
 
   actualizarUsuario(data: {email: string, nombre: string, role:string}){
     data = {
@@ -140,6 +141,23 @@ export class UsuarioService {
         localStorage.setItem('token', resp.token);
       })
     );
+  }
+
+  cargarUsuarios(desde: number = 0){
+
+    const ulr = `${base_url}/usuarios?desde=${desde}`;
+
+    return this.http.get<CargarUsuario>(ulr,this.headers)
+    .pipe(
+      map(resp =>{
+        const usuarios = resp.usuarios.map(user =>
+          new Usuario(user.nombre, user.email, '', user.img, user.google, user.role, user.uuid))
+        return {
+          total : resp.total,
+          usuarios
+        };
+      })
+    )
   }
 
 

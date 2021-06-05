@@ -36,6 +36,24 @@ export class SidebarService {
           url: 'perfil'
         },
       ]
+    },
+    {
+      titulo: 'Mantenimiento',
+      icono :'mdi mdi-folder-lock-open',
+      subMenu: [
+        {
+          titulo: 'Usuarios',
+          url: 'usuarios'
+        },
+        {
+          titulo: 'Hospitales',
+          url: 'hospitales'
+        },
+        {
+          titulo: 'Médicos',
+          url: 'medicos'
+        },
+      ]
     }
   ];
 
