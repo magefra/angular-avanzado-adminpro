@@ -1,14 +1,16 @@
+
 import { HttpClient } from '@angular/common/http';
 import { Injectable, NgZone } from '@angular/core';
 import { RegisterForm } from '../interfaces/register-form.interface';
 import { environment } from '../../environments/environment.prod';
 import { LoginForm } from '../interfaces/login-form.interface';
 
-import { tap, map, catchError } from 'rxjs/operators';
+import { tap, map, catchError, delay } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { Router } from '@angular/router';
 import { Usuario } from '../models/usuario.model';
 import { CargarUsuario } from '../interfaces/cargar-usuarios.interface';
+
 
 const base_url = environment.base_url;
 declare const gapi : any;
@@ -149,6 +151,7 @@ export class UsuarioService {
 
     return this.http.get<CargarUsuario>(ulr,this.headers)
     .pipe(
+      delay(1000),
       map(resp =>{
         const usuarios = resp.usuarios.map(user =>
           new Usuario(user.nombre, user.email, '', user.img, user.google, user.role, user.uuid))
@@ -158,6 +161,16 @@ export class UsuarioService {
         };
       })
     )
+  }
+
+
+  eliminarUsuario(usuario: Usuario){
+
+    const url = `${base_url}/usuarios/${usuario.uuid}`;
+
+
+    return this.http.delete(url,this.headers);
+
   }
 
 
