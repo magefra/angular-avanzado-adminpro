@@ -117,10 +117,13 @@ export class UsuarioService {
   }
 
   actualizarUsuario(data: {email: string, nombre: string, role:string}){
+
     data = {
       ... data,
       role: this.usuario.role
     }
+
+
 
     return this.http.put(`${base_url}/usuarios/${this.uuid}`, data,{
       headers: {
@@ -173,6 +176,16 @@ export class UsuarioService {
 
   }
 
+
+
+  guardarUsuario(usuario: Usuario){
+
+    return this.http.put(`${base_url}/usuarios/${usuario.uuid}`, usuario,{
+      headers: {
+        'x-token': this.token,
+      },
+    })
+  }
 
 
 
