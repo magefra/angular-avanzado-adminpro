@@ -16,6 +16,7 @@ import { PagesModule } from './pages/pages.module';
 
     NopagefoundComponent,
 
+
   ],
   imports: [
     BrowserModule,
