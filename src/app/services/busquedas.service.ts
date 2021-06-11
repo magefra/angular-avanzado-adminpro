@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment.prod';
 import { map } from 'rxjs/operators';
 import { Hospital } from '../models/hospital.model';
+import { Medico } from '../models/medico.mode';
 
 const base_url = environment.base_url;
 
@@ -42,6 +43,14 @@ export class BusquedasService {
 
 
 
+  private transformarMedico( resultados: any[] ): Medico[] {
+
+
+    return resultados;
+  }
+
+
+
 
 
   buscar(tipo: 'usuarios' | 'medicos' | 'hospitales', termino: string){
@@ -56,6 +65,10 @@ export class BusquedasService {
 
           case 'hospitales':
             return this.transformarHospital(resp.resultados);
+
+          case 'medicos':
+            return this.transformarMedico(resp.resultados);
+
 
           default:
             return [];

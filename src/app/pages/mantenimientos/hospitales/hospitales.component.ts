@@ -93,7 +93,7 @@ export class HospitalesComponent implements OnInit,OnDestroy {
     })
   }
 
-    console.log(value);
+
   }
 
 

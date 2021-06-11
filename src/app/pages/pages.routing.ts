@@ -70,7 +70,7 @@ const routes: Routes = [
         data: {titulo: 'Medicos de aplicación'}
       },
       {
-        path: 'medicos/:id',
+        path: 'medico/:id',
         component: MedicoComponent,
         data: {titulo: 'Medico de aplicación'}
       },
