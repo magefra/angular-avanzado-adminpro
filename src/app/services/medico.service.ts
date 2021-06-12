@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { map } from 'rxjs/operators';
+import { map, catchError } from 'rxjs/operators';
 import { environment } from '../../environments/environment.prod';
 import { HttpClient } from '@angular/common/http';
 import { Medico } from '../models/medico.mode';
+import { of } from 'rxjs';
 
 const base_url = environment.base_url;
 
@@ -38,21 +39,30 @@ export class MedicoService {
       map((resp:{ok: boolean, medicos: Medico[]}) => resp.medicos)
     );
   }
+  obtenerMedicoPorId( id: string ) {
+
+    const url = `${ base_url }/medicos/${ id }`;
+    return this.http.get( url, this.headers )
+              .pipe(
+                map( (resp: {ok: boolean, medico: Medico }) => resp.medico )
+              );
+  }
 
 
-
-  crearMedico(medico: Medico){
+  crearMedico(medico: {nombre: string, hospital: string}){
     const ulr = `${base_url}/medicos`;
 
     return this.http.post(ulr,medico,this.headers);
   }
 
 
-  actualizarMedico(medico: Medico){
-    const ulr = `${base_url}/medicos/${medico._id}`;
 
-    return this.http.put(ulr,{medico},this.headers);
+  actualizarMedico( medico: Medico  ) {
+
+    const url = `${ base_url }/medicos/${ medico._id }`;
+    return this.http.put( url, medico, this.headers );
   }
+
 
 
   eliminarMedico(_id: string ){

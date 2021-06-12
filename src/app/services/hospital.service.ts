@@ -27,15 +27,13 @@ export class HospitalService {
     };
   }
 
+  cargarHospitales() {
 
-  cargarHospitales(){
-
-    const ulr = `${base_url}/hospitales`;
-
-    return this.http.get(ulr,this.headers)
-    .pipe(
-      map((resp:{ok: boolean, hospitales: Hospital[]}) => resp.hospitales)
-    );
+    const url = `${ base_url }/hospitales`;
+    return this.http.get( url, this.headers )
+              .pipe(
+                map( (resp: {ok: boolean, hospitales: Hospital[] }) => resp.hospitales )
+              );
   }
 
 
