@@ -50,6 +50,11 @@ export class BusquedasService {
   }
 
 
+  busquedaGlobal(termino: string){
+    const ulr = `${base_url}/todo/${termino}`;
+
+    return this.http.get(ulr,this.headers);
+  }
 
 
 

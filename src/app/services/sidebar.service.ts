@@ -5,58 +5,13 @@ import { Injectable } from '@angular/core';
 })
 export class SidebarService {
 
-  menu: any[] = [
+public menu = [];
 
-    {
-      titulo: 'Dashboard!!',
-      icono :'mdi mdi-gauge',
-      subMenu: [
-        {
-          titulo: 'Main',
-          url: '/'
-        },
-        {
-          titulo: 'Progressbard',
-          url: 'progress'
-        },
-        {
-          titulo: 'Graficas',
-          url: 'grafica1'
-        },
-        {
-          titulo: 'Promesas',
-          url: 'promesas'
-        },
-        {
-          titulo: 'Rxjs',
-          url: 'rxjs'
-        },
-        {
-          titulo: 'Perfil',
-          url: 'perfil'
-        },
-      ]
-    },
-    {
-      titulo: 'Mantenimiento',
-      icono :'mdi mdi-folder-lock-open',
-      subMenu: [
-        {
-          titulo: 'Usuarios',
-          url: 'usuarios'
-        },
-        {
-          titulo: 'Hospitales',
-          url: 'hospitales'
-        },
-        {
-          titulo: 'Médicos',
-          url: 'medicos'
-        },
-      ]
-    }
-  ];
+cargarMenu(){
+  this.menu =JSON.parse( localStorage.getItem('menu')) || [];
 
+
+}
 
   constructor() { }
 }
